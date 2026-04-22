@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://judzbeautycare.com/sitemap.xml
