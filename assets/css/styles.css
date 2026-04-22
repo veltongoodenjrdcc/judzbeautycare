@@ -598,10 +598,18 @@ summary:focus-visible {
 
 @media (prefers-reduced-motion: no-preference) {
   /* carousel crossfade: 4 images × 8s = 32s cycle, staggered so fades overlap */
-  .hero-carousel-img:nth-child(1) { animation: carousel-fade 32s ease-in-out infinite 0s; }
+  .hero-carousel-img:nth-child(1) { animation: carousel-fade-first 32s ease-in-out infinite 0s; }
   .hero-carousel-img:nth-child(2) { animation: carousel-fade 32s ease-in-out infinite 8s; }
   .hero-carousel-img:nth-child(3) { animation: carousel-fade 32s ease-in-out infinite 16s; }
   .hero-carousel-img:nth-child(4) { animation: carousel-fade 32s ease-in-out infinite 24s; }
+
+  @keyframes carousel-fade-first {
+    0%    { opacity: 0; }
+    2.5%  { opacity: 0.35; }   /* 0.8s initial fade-in */
+    22%   { opacity: 0.35; }   /* hold */
+    30%   { opacity: 0; }      /* fade-out matches the regular carousel timing */
+    100%  { opacity: 0; }
+  }
 
   @keyframes carousel-fade {
     0%    { opacity: 0; }
@@ -977,6 +985,20 @@ a.hero-chip:hover {
   opacity: 0.82;
 }
 
+.promo-banner--featured::after {
+  content: '';
+  position: absolute;
+  top: 1.15rem;
+  right: 1.15rem;
+  z-index: 1;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: #ffe16a;
+  box-shadow: 0 0 0 5px rgba(255, 225, 106, 0.18);
+  pointer-events: none;
+}
+
 .promo-banner__content {
   position: relative;
   z-index: 1;
@@ -997,6 +1019,10 @@ a.hero-chip:hover {
   padding: 0.3rem 0.75rem;
   border-radius: 20px;
   margin-bottom: 0.5rem;
+}
+
+.promo-tag i {
+  flex-shrink: 0;
 }
 
 .promo-banner h3 {
@@ -1083,8 +1109,14 @@ a.hero-chip:hover {
     transform: translateX(3px);
   }
 
-  .promo-banner--featured {
-    animation: promo-soft-glow 7s ease-in-out infinite;
+  .promo-banner--featured::after {
+    animation: promo-marker-float 2.4s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  .promo-banner--featured .promo-tag i {
+    animation: promo-spark-float 2.4s ease-in-out infinite alternate;
+    will-change: transform;
   }
 
   @keyframes offer-pulse {
@@ -1097,14 +1129,14 @@ a.hero-chip:hover {
     }
   }
 
-  @keyframes promo-soft-glow {
-    0%, 100% {
-      box-shadow: var(--shadow-md), 0 0 0 1px rgba(90, 35, 150, 0.08);
-    }
+  @keyframes promo-marker-float {
+    from { transform: translateY(0); }
+    to { transform: translateY(-4px); }
+  }
 
-    50% {
-      box-shadow: var(--shadow-lg), 0 0 0 4px rgba(255, 225, 106, 0.18);
-    }
+  @keyframes promo-spark-float {
+    from { transform: translateY(0); }
+    to { transform: translateY(-2px); }
   }
 }
 
